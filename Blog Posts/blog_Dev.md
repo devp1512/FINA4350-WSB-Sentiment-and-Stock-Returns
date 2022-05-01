@@ -106,7 +106,9 @@ def updatep(column, data):
     data["Updated Score"] = np.where(data[column + "_category"] == "A", data["Updated Score"]*1.5, data["Updated Score"])
     
     return data
+```
 
+```python
 # Updates the sentiment score based on mean and sd
 def updates(column, data):
         
