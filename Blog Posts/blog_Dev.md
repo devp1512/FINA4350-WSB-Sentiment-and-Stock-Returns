@@ -74,16 +74,13 @@ df_concat.to_csv('reddit_with_ticker_with_sentiment.csv')
 
 ### Taking a look at the Post Metrics
 
-My next step was to incorporate the various metrics I had on post popularity into the overall sentiment score. I took a look at the metrics shown below and found a certain distinction to categorize them - homogeneous and heterogeneous.
+My next step was to incorporate the various metrics I had on post popularity into the overall sentiment score. I took a look at the metrics shown below and found a certain distinction to categorize them - homogeneous and heterogeneous. 
 
-
-An example of a homogeneous metric would be the upvote ratio, which is evenly spread out between 0 and 1. While the latter includes number of comments and number of upvotes, with the majority of posts having only single-digit counts, but a few having extremely high counts. 
-
-Separate incorporation methods were used to update the sentiment scores. For homogeneous data, it was split based on percentiles, namely the 20th, 40th, 60th and 80th, forming five categories altogether.  For heterogeneous data, the metrics were also split into five categories, but according to mean plus varying multiples of standard deviation. Data that fell into the highest category had their scores multiplied by 1.5. Each following category had decreasing increments of 0.25 in their multipliers, with the scores in the lowest category only being multiplied by 0.5. This means that a popular post, with a high number of upvotes and comments, would have their sentiment scores magnified; while an obscure post would have theirs diminished.
-
-
+An example of a homogeneous metric would be the upvote ratio, which is evenly spread out between 0 and 1. While heterogeneous metrics include number of comments and number of upvotes, with the majority of posts having only single-digit counts, but a few having extremely high counts. 
 
 ### Homogeneous Data
+
+For homogeneous data, I split them based on percentiles, namely the 20th, 40th, 60th and 80th, forming five categories altogether. Data that fell into the highest category had their scores multiplied by 1.5. Each following category had decreasing increments of 0.25 in their multipliers, with the scores in the lowest category only being multiplied by 0.5. This means that post that most agreed with (high upvote ratio) would have their sentiment scores magnified; while highly unpopular posts would have theirs diminished. 
 
 ```python
 # Obtains the percentiles for homogeneous data
@@ -117,6 +114,8 @@ def updatep(column, data):
 ```
 
 ### Heterogeneous Data
+
+I thought of using percentiles too for heterogeneous data. However, this led to an error. Given the disproportionately large number of 0s among heterogeneous data, all 4 percentiles used to categorize came out to be 0. This meant that the categorization would fail. Hence, another categorization method had to be used. For heterogeneous data, the metrics were also split into five categories, but according to mean plus varying multiples of standard deviation. 
 
 ```python
 def updates(column, data):
