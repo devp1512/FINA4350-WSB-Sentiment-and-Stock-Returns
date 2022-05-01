@@ -76,11 +76,13 @@ df_concat.to_csv('reddit_with_ticker_with_sentiment.csv')
 
 My next step was to incorporate the various metrics I had on post popularity into the overall sentiment score. I took a look at the metrics shown below and found a certain distinction to categorize them - homogeneous and heterogeneous. 
 
+![Example of CSV File]({static}/images/Cleaned_Identified_Stock_CSV.png)
+
 An example of a homogeneous metric would be the upvote ratio, which is evenly spread out between 0 and 1. While heterogeneous metrics include number of comments and number of upvotes, with the majority of posts having only single-digit counts, but a few having extremely high counts. 
 
 ### Homogeneous Data
 
-For homogeneous data, I split them based on percentiles, namely the 20th, 40th, 60th and 80th, forming five categories altogether. Data that fell into the highest category had their scores multiplied by 1.5. Each following category had decreasing increments of 0.25 in their multipliers, with the scores in the lowest category only being multiplied by 0.5. This means that post that most agreed with (high upvote ratio) would have their sentiment scores magnified; while highly unpopular posts would have theirs diminished. 
+For homogeneous data, I split them based on percentiles, namely the 20th, 40th, 60th and 80th, forming five categories altogether. Data that fell into the highest category had their scores multiplied by 1.5. Each following category had decreasing increments of 0.25 in their multipliers, with the scores in the lowest category only being multiplied by 0.5. This means that post that most agreed with (high upvote ratio) would have their sentiment scores magnified; while highly unpopular posts would have theirs diminished. The functions that are used to achieve this are defined below.
 
 ```python
 # Obtains the percentiles for homogeneous data
@@ -115,7 +117,7 @@ def updatep(column, data):
 
 ### Heterogeneous Data
 
-I thought of using percentiles too for heterogeneous data. However, this led to an error. Given the disproportionately large number of 0s among heterogeneous data, all 4 percentiles used to categorize came out to be 0. This meant that the categorization would fail. Hence, another categorization method had to be used. For heterogeneous data, the metrics were also split into five categories, but according to mean plus varying multiples of standard deviation. 
+I thought of using percentiles too for heterogeneous data. However, this led to an error. Given the disproportionately large number of 0s among heterogeneous data, all 4 percentiles used to categorize came out to be 0. This meant that the categorization would fail. Hence, another categorization method had to be used. For heterogeneous data, the metrics were also split into five categories, but according to mean plus varying multiples of standard deviation. The functions that are used to achieve this are defined below.
 
 ```python
 def updates(column, data):
