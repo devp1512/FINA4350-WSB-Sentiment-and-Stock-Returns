@@ -18,7 +18,7 @@ I was aware of the fact that there are several Python libraries for Sentiment An
 
 ## Updating the VADER Dictionary
 
-After a quick look through the [VADER documentation](https://github.com/cjhutto/vaderSentiment#python-demo-and-code-examples), I realized that I could update the VADER sentiment dictionary to fit my needs. Since r/wallstreetbets is the birthplace of many new and original phrases, I would have to not only find an exhaustive list of these terms, but also assign a non-arbitrary sentiment score to them. Though after a couple of minutes of web surfing, my work was cut short for me. Apparently, there had been others who were also interested in analyzing this subredit's sentiment, and had already created the dictionary with a long list of terms. ([1](https://github.com/mdominguez2010/wsb-sentiment-analysis/blob/main/stocks_to_trade.py), [2](), [3]()) I took inspiration the sentiment scores from the three sources and created my own dictionary which is shown below.
+After a quick look through the [VADER documentation](https://github.com/cjhutto/vaderSentiment#python-demo-and-code-examples), I realized that I could update the VADER sentiment dictionary to fit my needs. Since r/wallstreetbets is the birthplace of many new and original phrases, I would have to not only find an exhaustive list of these terms, but also assign a non-arbitrary sentiment score to them. Though after a couple of minutes of web surfing, my work was cut short for me. Apparently, there had been others who were also interested in analyzing this subredit's sentiment, and had already created the dictionary with a long list of terms ([1](https://github.com/mdominguez2010/wsb-sentiment-analysis/blob/main/stocks_to_trade.py), [2](), [3]()). I took inspiration the sentiment scores from the three sources and created my own dictionary which is shown below.
 
 ```python
 wsb_lingo = {'citron': -4.0, 'hidenburg': -4.0, 'moon': 4.0, 'highs': 2.0,
@@ -36,3 +36,32 @@ wsb_lingo = {'citron': -4.0, 'hidenburg': -4.0, 'moon': 4.0, 'highs': 2.0,
 ```
 
 It is worth noting that sentiment scores are given on a scale from -4 (most negative) to 4 (most positive). Also, another interesting thing about VADER is that emojis in text are automatically converted into text before analysis. To this end, it was only necessary for me to give a description of the emojis for VADER to be able to pick up on its sentiment. This can be seen above with "rocket" and "gem stone".
+
+The actual code to initialize the VADER Sentiment Analyzer and Dictionary Updating is given below.
+
+```python
+# Import the necessary libraries
+import pandas as pd 
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+# Update the VADER Sentiment Analyzer with the above terms
+sia = SentimentIntensityAnalyzer()
+sia.lexicon.update(wsb_lingo)
+
+# Import the cleaned dataframe from the previous step
+cleaned_dataframe = pd.read_csv("reddit_with_ticker.csv", lineterminator = "\n") 
+
+# Run the post content through VADER and store the output
+sentiment_list = []
+for content in cleaned_dataframe["all_content"]:
+    sentiment_list.append([sia.polarity_scores(content)["neg"], sia.polarity_scores(content)["neu"], 
+                      sia.polarity_scores(content)["pos"], sia.polarity_scores(content)["compound"]])
+sentiment = pd.DataFrame(sentiment_list, columns = ["Sell Signal", "Hold Signal", "Buy Signal", "Compound Signal"])
+
+
+# Combine the results with the original dataframe
+df_concat = pd.concat([cleaned_dataframe, sentiment], axis=1)
+
+# Save the new dataframe as a csv file
+df_concat.to_csv('reddit_with_ticker_with_sentiment.csv')
+```
