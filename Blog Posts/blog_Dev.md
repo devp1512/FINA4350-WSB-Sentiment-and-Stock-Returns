@@ -76,7 +76,7 @@ df_concat.to_csv('reddit_with_ticker_with_sentiment.csv')
 
 My next step was to incorporate the various metrics I had on post popularity into the overall sentiment score. I took a look at the metrics shown below and found a certain distinction to categorize them - homogeneous and heterogeneous. 
 
-![Example of CSV File]({static}/images/Cleaned_Identified_Stock_CSV.png)
+![Metric Visualization]({static}/images/Metric Visualization.png)
 
 An example of a homogeneous metric would be the upvote ratio, which is evenly spread out between 0 and 1. While heterogeneous metrics include number of comments and number of upvotes, with the majority of posts having only single-digit counts, but a few having extremely high counts. 
 
@@ -117,7 +117,7 @@ def updatep(column, data):
 
 ### Heterogeneous Data
 
-I thought of using percentiles too for heterogeneous data. However, this led to an error. Given the disproportionately large number of 0s among heterogeneous data, all 4 percentiles used to categorize came out to be 0. This meant that the categorization would fail. Hence, another categorization method had to be used. For heterogeneous data, the metrics were also split into five categories, but according to mean plus varying multiples of standard deviation. The functions that are used to achieve this are defined below.
+I thought of using percentiles too for heterogeneous data. However, this led to an error. Given the disproportionately large number of 0s among heterogeneous data, all 4 percentiles used to categorize came out to be 0. This meant that the categorization would fail. Hence, another categorization method had to be used. From my knowledge in statistics, I came up with the method of using mean and standard deviation, though I did not know an explicit formula for categorization. I experimented with varying multiples of standard deviation and found out that increments of 0.5 seemed to fit the data the best. The functions that are used to achieve this are defined below.
 
 ```python
 def updates(column, data):
@@ -143,6 +143,8 @@ def updates(column, data):
     return data
 ```
 ### Running the above functions
+
+For clarity, I created 6 new variables, 5 to store the result of the categorization, and the remaining 1 to store the updated sentiment score. We run the above functions to obtain the updated sentiment score. An illustration of the results is also given.
 
 ```python
 # Import the necessary modules
@@ -173,3 +175,6 @@ updates("comment_upvote", df)
 # Save the updated dataframe as a csv file
 df.to_csv("Updated_Data.csv")
 ```
+
+![Result Illustration]({static}/images/Result Illustration.png)
+
