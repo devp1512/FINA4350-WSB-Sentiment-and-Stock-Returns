@@ -72,11 +72,11 @@ df["upvote_ratio_category"] = np.nan
 df["Updated Score"] = df.loc[:, 'Compound Signal']
 
 # Run the above functions on the actual metrics
-update("upvote_ratio", df, "percentile")
-update("upvotes", df, "sd")
-update("num_crossposts", df, "sd")
-update("num_comments", df, "sd")
-update("comment_upvote", df, "sd")
+updatep("upvote_ratio", df)
+updates("upvotes", df)
+updates("num_crossposts", df)
+updates("num_comments", df)
+updates("comment_upvote", df)
 
 
 # Save the updated dataframe as a csv file
