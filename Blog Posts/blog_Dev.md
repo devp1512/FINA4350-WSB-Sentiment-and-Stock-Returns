@@ -16,7 +16,9 @@ I am Dev, a Year 2 student majoring in Quantitative Finance at HKU, and I am in 
 
 I was aware of the fact that there are several Python libraries for Sentiment Analysis, such as pre-built ones like TextBlob and VADER, or trainable ones like keras. I took a look at my dataset and thought a bit about the nature of the text I was trying to analyze - Reddit posts. They would most likely be full of colloquialisms, acronyms and even emojis. It would be out of my area of competence, and take an enormous amount of time if I were to train my own text analyzer, so I was down to two options: TextBlob or VADER. After [some research](https://comp.social.gatech.edu/papers/icwsm14.vader.hutto.pdf) on the pros and cons of both, I found out that TextBlob was more suitable for formal writing, while VADER works better on social media content, so I chose VADER.
 
-## Updating the VADER Dictionary
+## Part I: Sentiment Analysis
+
+### Updating the VADER Dictionary
 
 After a quick look through the [VADER documentation](https://github.com/cjhutto/vaderSentiment#python-demo-and-code-examples), I realized that I could update the VADER sentiment dictionary to fit my needs. Since r/wallstreetbets is the birthplace of many new and original phrases, I would have to not only find an exhaustive list of these terms, but also assign a non-arbitrary sentiment score to them. Though after a couple of minutes of web surfing, my work was cut short for me. Apparently, there had been others who were also interested in analyzing this subredit's sentiment, and had already created the dictionary with a long list of terms ([1](https://github.com/mdominguez2010/wsb-sentiment-analysis/blob/main/stocks_to_trade.py), [2](), [3]()). I took inspiration the sentiment scores from the three sources and created my own dictionary which is shown below.
 
@@ -37,7 +39,9 @@ wsb_lingo = {'citron': -4.0, 'hidenburg': -4.0, 'moon': 4.0, 'highs': 2.0,
 
 It is worth noting that sentiment scores are given on a scale from -4 (most negative) to 4 (most positive). Also, another interesting thing about VADER is that emojis in text are automatically converted into text before analysis. To this end, it was only necessary for me to give a description of the emojis for VADER to be able to pick up on its sentiment. This can be seen above with "rocket" and "gem stone".
 
-The actual code to initialize the VADER Sentiment Analyzer and Dictionary Updating is given below.
+### Running the Sentiment Analyzer
+
+The code to initialize the VADER Sentiment Analyzer and Dictionary Updating is relatively straightforward and can be found in the VADER documentation. Since 4 outputs will be given for each post, namely the "Negative Signal", "Neutral Signal", "Positive Signal" and "Compound Signal", all of which are normalized scores between -1 and 1, I simply had to append all 4 outputs onto the initial DataFrame. The code is given below.
 
 ```python
 # Import the necessary libraries
@@ -65,3 +69,9 @@ df_concat = pd.concat([cleaned_dataframe, sentiment], axis=1)
 # Save the new dataframe as a csv file
 df_concat.to_csv('reddit_with_ticker_with_sentiment.csv')
 ```
+
+## Part II: Metric Incorporation
+
+### Taking a look at the Post Metrics
+
+My next step was to incorporate
