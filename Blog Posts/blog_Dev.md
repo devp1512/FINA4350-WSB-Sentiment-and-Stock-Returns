@@ -144,7 +144,7 @@ def updates(column, data):
 ```
 ### Running the above functions
 
-For clarity, I created 6 new variables, 5 to store the result of the categorization, and the remaining 1 to store the updated sentiment score. We run the above functions to obtain the updated sentiment score. An illustration of the results is also given.
+For clarity, I created 6 new variables, 5 to store the result of the categorization, and the remaining 1 to store the updated sentiment score. We run the above functions to obtain the updated sentiment score and append all new columns to the previous DataFrame. The final DataFrame can then be used in correlation analysis. 
 
 ```python
 # Import the necessary modules
@@ -176,5 +176,14 @@ updates("comment_upvote", df)
 df.to_csv("Updated_Data.csv")
 ```
 
+An illustration of the sentiment updating is given below.
+
 ![Result Illustration]({static}/images/Result Illustration.png)
+
+## Final Thoughts
+
+This was the first time I experienced what it means to be a "Data Scientist" - someone that needs to familiarize themselves with the dataset, and then come up with methods to achieve their goals.  I had always thought of Data Science as making use of fancy, complicated models, yet I now know that this cannot be further away from the truth. 
+
+
+
 
