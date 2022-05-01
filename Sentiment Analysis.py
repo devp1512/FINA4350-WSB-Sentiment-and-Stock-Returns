@@ -1,12 +1,11 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
-
-
+# Import the necessary libraries
 import pandas as pd 
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
+# Setting up a dictionary with wsb terminology 
 # https://github.com/mdominguez2010/wsb-sentiment-analysis/blob/main/stocks_to_trade.py
 wsb_lingo = {
     'citron': -4.0,  
@@ -68,39 +67,26 @@ wsb_lingo = {
     "to the moon": 4.0,
 }
 
+# Update the VADER Sentiment Analyzer with the above terms
 sia = SentimentIntensityAnalyzer()
 sia.lexicon.update(wsb_lingo)
 
+# Import the cleaned dataframe from the previous step
 cleaned_dataframe = pd.read_csv("reddit_with_ticker.csv", lineterminator = "\n") 
-cleaned_dataframe
 
-
-# In[ ]:
-
-
-cleaned_dataframe.iloc[:, [0,2,3,5,6,7,16]]
-
-
-# In[ ]:
-
-
+# Run the post content through VADER and store the output
 sentiment_list = []
-
 for content in cleaned_dataframe["all_content"]:
     sentiment_list.append([sia.polarity_scores(content)["neg"], sia.polarity_scores(content)["neu"], 
                       sia.polarity_scores(content)["pos"], sia.polarity_scores(content)["compound"]])
-
 sentiment = pd.DataFrame(sentiment_list, columns = ["Sell Signal", "Hold Signal", "Buy Signal", "Compound Signal"])
 
 
-# In[ ]:
-
-
+# Combine the results with the original dataframe
 df_concat = pd.concat([cleaned_dataframe, sentiment], axis=1)
+
+# Save the new dataframe as a csv file
 df_concat.to_csv('reddit_with_ticker_with_sentiment.csv')
-
-
-# In[ ]:
 
 
 
