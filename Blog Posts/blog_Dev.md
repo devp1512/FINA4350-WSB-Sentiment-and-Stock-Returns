@@ -20,7 +20,7 @@ I was aware of the fact that there are several Python libraries for Sentiment An
 
 ### Updating the VADER Dictionary
 
-After a quick look through the [VADER documentation](https://github.com/cjhutto/vaderSentiment#python-demo-and-code-examples), I realized that I could update the VADER sentiment dictionary to fit my needs. Since r/wallstreetbets is the birthplace of many new and original phrases, I would have to not only find an exhaustive list of these terms, but also assign a non-arbitrary sentiment score to them. Though after a couple of minutes of web surfing, my work was cut short for me. Apparently, there had been others who were also interested in analyzing this subredit's sentiment, and had already created the dictionary with a long list of terms ([1](https://github.com/mdominguez2010/wsb-sentiment-analysis/blob/main/stocks_to_trade.py), [2](https://infinityinvesting.com/wallstreetbets-slang-meaning/), [3](https://scholarworks.rit.edu/cgi/viewcontent.cgi?article=12195&context=theses)). I took inspiration the sentiment scores from the three sources and created my own dictionary which is shown below.
+After a quick look through the [VADER documentation](https://github.com/cjhutto/vaderSentiment#python-demo-and-code-examples), I realized that I could update the VADER sentiment dictionary to fit my needs. Since r/wallstreetbets is the birthplace of many new and original phrases, I would have to not only find an exhaustive list of these terms, but also assign a non-arbitrary sentiment score to them. Though after a couple of minutes of web surfing, my work was cut short for me. Apparently, there had been others who were also interested in analyzing this subreddit's sentiment, and had already created the dictionary with a long list of terms ([1](https://github.com/mdominguez2010/wsb-sentiment-analysis/blob/main/stocks_to_trade.py), [2](https://infinityinvesting.com/wallstreetbets-slang-meaning/), [3](https://scholarworks.rit.edu/cgi/viewcontent.cgi?article=12195&context=theses)). I took inspiration from the three sources and created my own dictionary which is shown below.
 
 ```python
 wsb_lingo = {'citron': -4.0, 'hidenburg': -4.0, 'moon': 4.0, 'highs': 2.0,
@@ -37,7 +37,7 @@ wsb_lingo = {'citron': -4.0, 'hidenburg': -4.0, 'moon': 4.0, 'highs': 2.0,
              "andromeda": 0.0, "to the moon": 4.0}
 ```
 
-It is worth noting that sentiment scores are given on a scale from -4 (most negative) to 4 (most positive). Also, another interesting thing about VADER is that emojis in text are automatically converted into text before analysis. To this end, it was only necessary for me to give a description of the emojis for VADER to be able to pick up on its sentiment. This can be seen above with "rocket" and "gem stone".
+It is worth noting that sentiment scores are given on a scale from -4 (most negative) to 4 (most positive). Also, another interesting thing about VADER is that in-text emojis are automatically converted into text before analysis. To this end, it was only necessary for me to give a description of the emojis for VADER to be able to pick up on its sentiment. This can be seen above with "rocket" and "gem stone".
 
 ### Running the Sentiment Analyzer
 
@@ -82,7 +82,7 @@ An example of a homogeneous metric would be the upvote ratio, which is evenly sp
 
 ### Homogeneous Data
 
-For homogeneous data, I split them based on percentiles, namely the 20th, 40th, 60th and 80th, forming five categories altogether. Data that fell into the highest category had their scores multiplied by 1.5. Each following category had decreasing increments of 0.25 in their multipliers, with the scores in the lowest category only being multiplied by 0.5. This means that post that most agreed with (high upvote ratio) would have their sentiment scores magnified; while highly unpopular posts would have theirs diminished. The functions that are used to achieve this are defined below.
+For homogeneous data, I split them based on percentiles, namely the 20th, 40th, 60th, and 80th, forming five categories altogether. Data that fell into the highest category had their scores multiplied by 1.5. Each following category had decreasing increments of 0.25 in their multipliers, with the scores in the lowest category only being multiplied by 0.5. This means that posts which most agreed with (high upvote ratio) would have their sentiment scores magnified; while highly unpopular posts would have theirs diminished. The functions that are used to achieve this are defined below.
 
 ```python
 # Obtains the percentiles for homogeneous data
@@ -117,7 +117,7 @@ def updatep(column, data):
 
 ### Heterogeneous Data
 
-I thought of using percentiles too for heterogeneous data. However, this led to an error. Given the disproportionately large number of 0s among heterogeneous data, all 4 percentiles used to categorize came out to be 0. This meant that the categorization would fail. Hence, another categorization method had to be used. From my knowledge in statistics, I came up with the method of using mean and standard deviation, though I did not know an explicit formula for categorization. I experimented with varying multiples of standard deviation and found out that increments of 0.5 seemed to fit the data the best. The functions that are used to achieve this are defined below.
+I thought of using percentiles too for heterogeneous data. However, this led to an error. Given the disproportionately large number of 0s among heterogeneous data, all 4 percentiles used to categorize came out to be 0. This meant that the categorization would fail. Hence, another categorization method had to be used. From my knowledge of statistics, I came up with the method of using mean and standard deviation, though I did not know an explicit formula for categorization. I experimented with varying multiples of standard deviation and found out that increments of 0.5 seemed to fit the data the best. The functions that are used to achieve this are defined below.
 
 ```python
 def updates(column, data):
@@ -182,7 +182,7 @@ An illustration of the sentiment updating is given below.
 
 ## Final Thoughts
 
-All in all, I believe I was successful in completing the tasks I set out to do. This was the first time I experienced what it means to be a "Data Scientist" - someone that needs to familiarize themselves with the dataset, and then come up with methods to achieve their goals.  I had always thought of Data Science as making use of fancy, complicated models, yet I now know that this cannot be further away from the truth. In reality, it is a mix of experimenting with your data and making deductions about it, quite a messy process to be honest. I hope that my elaborate attempt at explaining my thought process brings some substance to this blog plost.
+All in all, I believe I was successful in completing the tasks I set out to do. This was the first time I experienced what it means to be a "Data Scientist" - someone that needs to familiarize themselves with the dataset, and then come up with methods to achieve their goals.  I had always thought of Data Science as making use of fancy, complicated models, yet I now know that this cannot be further away from the truth. In reality, it is a mix of experimenting with your data and making deductions about it, quite a messy process to be honest. I hope that my elaborate attempt at explaining my thought process brings some substance to this blog plot.
 
 
 
