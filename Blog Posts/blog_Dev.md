@@ -20,7 +20,7 @@ I was aware of the fact that there are several Python libraries for Sentiment An
 
 ### Updating the VADER Dictionary
 
-After a quick look through the [VADER documentation](https://github.com/cjhutto/vaderSentiment#python-demo-and-code-examples), I realized that I could update the VADER sentiment dictionary to fit my needs. Since r/wallstreetbets is the birthplace of many new and original phrases, I would have to not only find an exhaustive list of these terms, but also assign a non-arbitrary sentiment score to them. Though after a couple of minutes of web surfing, my work was cut short for me. Apparently, there had been others who were also interested in analyzing this subredit's sentiment, and had already created the dictionary with a long list of terms ([1](https://github.com/mdominguez2010/wsb-sentiment-analysis/blob/main/stocks_to_trade.py), [2](), [3]()). I took inspiration the sentiment scores from the three sources and created my own dictionary which is shown below.
+After a quick look through the [VADER documentation](https://github.com/cjhutto/vaderSentiment#python-demo-and-code-examples), I realized that I could update the VADER sentiment dictionary to fit my needs. Since r/wallstreetbets is the birthplace of many new and original phrases, I would have to not only find an exhaustive list of these terms, but also assign a non-arbitrary sentiment score to them. Though after a couple of minutes of web surfing, my work was cut short for me. Apparently, there had been others who were also interested in analyzing this subredit's sentiment, and had already created the dictionary with a long list of terms ([1](https://github.com/mdominguez2010/wsb-sentiment-analysis/blob/main/stocks_to_trade.py), [2](https://infinityinvesting.com/wallstreetbets-slang-meaning/), [3](https://scholarworks.rit.edu/cgi/viewcontent.cgi?article=12195&context=theses)). I took inspiration the sentiment scores from the three sources and created my own dictionary which is shown below.
 
 ```python
 wsb_lingo = {'citron': -4.0, 'hidenburg': -4.0, 'moon': 4.0, 'highs': 2.0,
@@ -182,7 +182,7 @@ An illustration of the sentiment updating is given below.
 
 ## Final Thoughts
 
-This was the first time I experienced what it means to be a "Data Scientist" - someone that needs to familiarize themselves with the dataset, and then come up with methods to achieve their goals.  I had always thought of Data Science as making use of fancy, complicated models, yet I now know that this cannot be further away from the truth. 
+All in all, I believe I was successful in completing the tasks I set out to do. This was the first time I experienced what it means to be a "Data Scientist" - someone that needs to familiarize themselves with the dataset, and then come up with methods to achieve their goals.  I had always thought of Data Science as making use of fancy, complicated models, yet I now know that this cannot be further away from the truth. In reality, it is a mix of experimenting with your data and making deductions about it, quite a messy process to be honest. I hope that my elaborate attempt at explaining my thought process brings some substance to this blog plost.
 
 
 
